@@ -42,6 +42,14 @@ pub trait ClientRenderClientHost {
     #[access(WorldOnly)]
     fn refresh_biome_colors(&mut self);
     /// Side: client.
+    /// Asks the mod block entity at `pos` for its model data (`block_entity_model_data`) again
+    /// before its section next meshes (`requestModelDataUpdate`, #861); the section meshes again
+    /// only when the variant it selects changed. Call it when the data its models depend on
+    /// changes, not every frame. `ModelDataRefreshError::NoModelData` when no mod block entity
+    /// whose block registered model data (`register_block_model_data`) is loaded there.
+    #[access(WorldOnly)]
+    fn refresh_model_data(&mut self, pos: [i32; 3]) -> Result<(), ModelDataRefreshError>;
+    /// Side: client.
     /// A mod's own RGBA image, uploaded into the HUD atlas slot
     /// `MOD_IMAGE_SPRITE` and drawn with
     /// `native_sprite`: its own source rectangle crops and stretches it. `rgba`

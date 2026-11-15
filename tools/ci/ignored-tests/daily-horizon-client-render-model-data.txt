@@ -1,0 +1,3 @@
+# Block-entity model data in the real mesher (#861 part 2) needs prepared resources.
+horizon-client-render mesher::model_data_tests::a_selection_replaces_only_the_block_it_names lib daily resources
+horizon-client-render mesher::model_data_tests::no_plan_meshes_byte_for_byte_as_the_mesher_always_has lib daily resources

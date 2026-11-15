@@ -92,6 +92,7 @@ pub mod mod_list;
 pub mod mod_model_loaders;
 pub mod mod_pipelines;
 pub mod mod_sprite_sources;
+pub mod model_data;
 pub mod model_library;
 pub mod models;
 pub mod mods_screen;

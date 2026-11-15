@@ -41,6 +41,8 @@ pub(crate) mod model_layers;
 pub(crate) mod model_loader;
 // #861 part 1: keys and views of the baked model cache.
 pub(crate) mod baked_models;
+// #861 part 2: block-entity model data.
+pub(crate) mod model_data;
 // hidden: a module of game-side types; mods use their re-exports
 #[doc(hidden)]
 pub mod music;

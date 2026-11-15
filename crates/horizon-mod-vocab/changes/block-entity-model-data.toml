@@ -1,0 +1,18 @@
+ids = [
+    "hook:register_block_model_data",
+    "hook:block_entity_model_data",
+    "method:prelude::ClientRenderClientHost::refresh_model_data",
+    "type:BlockModelData",
+    "type:ModelDataProperty",
+    "type:ModelDataKind",
+    "type:ModelDataValue",
+    "type:ModelDataVariant",
+    "type:ModelDataEntry",
+    "type:ModelDataRefreshError",
+    "handle:BlockModelData::new",
+    "handle:ModelDataEntry::new",
+    "handle:ModelDataProperty::new",
+    "handle:ModelDataVariant::new",
+]
+why = "#861 part 2: block-entity model data. register_block_model_data declares, once on the client, a mod block's typed, bounded properties with defaults and the standalone-model variants they select; block_entity_model_data asks the block entity for its values on the client's world thread (never on a meshing worker), and ClientRenderClientHost::refresh_model_data asks again when its data changes. The chosen variant is frozen into each section's mesh job. New types and hooks only; no existing wire layout changes."
+migrate = "Nothing to change. Mods without model data are unaffected and their meshes are unchanged."

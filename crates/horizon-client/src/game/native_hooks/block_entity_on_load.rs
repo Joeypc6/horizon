@@ -9,9 +9,10 @@ impl Game<'_> {
         let mut world = horizon_client::world::World::new(air, seed);
         world
             .block_entities
-            .set_on_load_enabled(mod_api::__private::has_part_hook(
-                mod_api::HookId::BlockEntityOnLoad,
-            ));
+            .set_on_load_enabled(
+                mod_api::__private::has_part_hook(mod_api::HookId::BlockEntityOnLoad)
+                    || mod_api::__private::has_part_hook(mod_api::HookId::BlockEntityModelData),
+            );
         world
     }
 
@@ -45,6 +46,8 @@ impl Game<'_> {
             .block_entities
             .next_on_load_in_batch(&mut remaining)
         {
+            // A loaded block entity answers its model data before its section meshes.
+            self.queue_model_data([pos.0, pos.1, pos.2]);
             if !mod_api::__private::has_part_hook(mod_api::HookId::BlockEntityOnLoad) {
                 continue;
             }

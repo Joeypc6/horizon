@@ -192,6 +192,10 @@ pub mod built {
     pub fn model_ref(generation: u64, slot: u32) -> crate::ModelRef {
         crate::ModelRef(generation, slot)
     }
+    /// A collect hook's entry with the mod that gave it, as dispatch names it.
+    pub fn answered<T>(answer: T, mod_id: &'static str) -> crate::Answered<T> {
+        crate::Answered { answer, mod_id }
+    }
     /// An empty baked model copy the game fills field by field.
     pub fn baked_model_view() -> crate::BakedModelView {
         crate::BakedModelView {

@@ -288,6 +288,8 @@ struct MeshSettings {
     opaque_ice: bool,
     translucent_layers: Arc<[bool]>,
     leaf_culling: LeafCullingMode,
+    /// The section's frozen block-entity model data (#861); `None` with no mod's.
+    model_data: Option<crate::model_data::ModelDataPlan>,
 }
 enum Job {
     Generate(i32, i32),
@@ -2289,17 +2291,12 @@ impl Streaming {
                 let first = self.meshed.insert((x, z));
                 self.sequence += 1;
                 self.meshing.insert((x, sy, z), self.sequence);
+                let mut settings = self.mesh_settings();
+                settings.model_data = world.model_data.plan(x, sy, z);
                 self.submit(
                     Some((x, z)),
                     if first { 2 } else { 0 },
-                    Job::Mesh(
-                        x,
-                        sy,
-                        z,
-                        region.clone(),
-                        self.sequence,
-                        self.mesh_settings(),
-                    ),
+                    Job::Mesh(x, sy, z, region.clone(), self.sequence, settings),
                 );
             }
         }

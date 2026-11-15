@@ -198,6 +198,8 @@ impl Game<'_> {
             .extra
             .extend(waiting.into_iter().map(|chunk| (chunk, 0)));
         self.streaming.upload_backlog = self.pending_uploads.len();
+        // Block-entity model data answers on this thread, frozen before the sections schedule.
+        self.update_model_data();
         let plan = horizon_client::spans::time("streaming_plan", || {
             let mut step = self.streaming.begin_plan_update(&mut self.world);
             loop {
@@ -252,6 +254,7 @@ impl Game<'_> {
         });
         for chunk in &unloaded {
             self.world.modified.unloaded(&(chunk.x, chunk.z));
+            self.unload_model_data(chunk.x, chunk.z);
         }
         if let Some(lod) = &mut self.lod {
             self.lod_observe

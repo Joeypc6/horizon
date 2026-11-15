@@ -984,6 +984,8 @@ struct Game<'a> {
     gui: UiResources,
     instance_groups: std::cell::RefCell<native_instance_groups::InstanceGroupStorage>,
     standalone_geometry: native_block_entity_draw::StandaloneGeometry,
+    /// Block-entity model data (#861, `game/modding/native_model_data.rs`).
+    model_data: native_model_data::ModelData,
     /// `FogRenderer`'s evolving state.
     fog: horizon_client::fog::FogState,
     screen_fx: horizon_client::screen_effects::ScreenEffects,
@@ -10629,6 +10631,7 @@ impl<'a> Game<'a> {
             gui,
             instance_groups: Default::default(),
             standalone_geometry,
+            model_data: Default::default(),
             fog: Default::default(),
             screen_fx: Default::default(),
             item_activation: Default::default(),

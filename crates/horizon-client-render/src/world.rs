@@ -91,6 +91,8 @@ pub struct World {
     pub air: BlockStateId,
     /// Sections whose geometry changed and need remeshing.
     pub dirty_sections: DirtySections,
+    /// Block-entity model data selections the mesh jobs read (#861); empty with no mod's.
+    pub model_data: crate::model_data::ModelDataSections,
     /// Chunks whose light must be recomputed.
     pub dirty_light: crate::fast_hash::FxHashSet<(i32, i32)>,
     /// Edits on lit chunks (position, old state, new state), relit
@@ -316,6 +318,7 @@ impl World {
             air,
             fast_lava: false,
             dirty_sections: Default::default(),
+            model_data: Default::default(),
             dirty_light: Default::default(),
             light_edits: Vec::new(),
             light_checks: Default::default(),

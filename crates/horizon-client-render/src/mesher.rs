@@ -1603,6 +1603,8 @@ fn row_masks_match_cell_definition() {
 #[cfg(test)]
 mod leaf_culling_tests;
 #[cfg(test)]
+mod model_data_tests;
+#[cfg(test)]
 mod opaque_ice_tests;
 #[cfg(test)]
 mod reuse_tests;
@@ -2119,8 +2121,21 @@ impl Mesher<'_> {
         &mut self,
         region: &[[Option<&Chunk>; 3]; 3],
         sy: i32,
+        out: SectionMesh,
+        scratch: &mut MeshScratch,
+    ) -> SectionMesh {
+        self.mesh_planned(region, sy, out, scratch, None)
+    }
+    /// [`Self::mesh_reusing`] with the block-entity model data its job froze for the section
+    /// (`crate::model_data`, #861): where the plan selects models, they replace the state's own.
+    /// `None` is the mesher's own path.
+    pub fn mesh_planned(
+        &mut self,
+        region: &[[Option<&Chunk>; 3]; 3],
+        sy: i32,
         mut out: SectionMesh,
         scratch: &mut MeshScratch,
+        model_data: Option<&crate::model_data::ModelDataPlan>,
     ) -> SectionMesh {
         out.clear();
         let center = region[1][1].expect("centre chunk");
@@ -2215,7 +2230,10 @@ impl Mesher<'_> {
                         continue;
                     }
                     let world = BlockPos::new(center.x * 16 + x, base_y + y, center.z * 16 + z);
-                    if catalog
+                    if let Some(slots) = model_data.and_then(|plan| plan.at(id, [x, y, z])) {
+                        models.clear();
+                        models.extend(slots.iter().filter_map(|&slot| catalog.model_by_slot(slot)));
+                    } else if catalog
                         .models_at(BlockStateId(id), world, &mut models)
                         .is_err()
                     {
