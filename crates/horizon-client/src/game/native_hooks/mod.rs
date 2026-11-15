@@ -92,6 +92,8 @@ use mod_api::{
     BlockKey, DebugEntry, DebugRenderer, EffectKey, GuiLayer, HiddenParts, MapDecorationType,
     ParticleGroup, PosedParts, RuntimeSprite, SkullModel, TaskId, TextureAtlasRegistration,
 };
+// The generated fire entry points of the #861 model data hooks name these unqualified.
+use mod_api::{BlockModelData, ModelDataEntry};
 pub(crate) use mod_api::{
     BlockRim, ClientPacket, ClientPayload, ColoredLight, ContainerLootFilled, ExplosionStart,
     ItemFished, LootDrops, PanelEvent, PortalShape, ScreenView,

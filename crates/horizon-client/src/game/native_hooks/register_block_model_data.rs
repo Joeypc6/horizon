@@ -1,5 +1,4 @@
 use super::*;
-use mod_api::BlockModelData;
 
 impl Game<'_> {
     /// Block-entity model data (#861): each client mod pushes a `mod_api::BlockModelData` for a

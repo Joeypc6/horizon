@@ -1,5 +1,5 @@
 use super::*;
-use mod_api::{ModBlockEntity, ModelDataEntry};
+use mod_api::ModBlockEntity;
 
 impl Game<'_> {
     /// `IBlockEntityExtension.getModelData`: the mod block entity at `pos` pushes the
